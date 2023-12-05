@@ -17,9 +17,9 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "author")
     private List<Task> authorTasks;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "performer")
     private List<Task> performerTasks;
 
 }

@@ -15,9 +15,9 @@ public class TaskMapper {
         this.userRepository = userRepository;
     }
 
-    public Task toEntity(TaskDto taskDto, Principal principal) {
-        User user = userRepository.findByUsername(principal.getName())
-                .orElseThrow();
-    }
+//    public Task toEntity(TaskDto taskDto, Principal principal) {
+//        User user = userRepository.findByUsername(principal.getName())
+//                .orElseThrow();
+//    }
 
 }
