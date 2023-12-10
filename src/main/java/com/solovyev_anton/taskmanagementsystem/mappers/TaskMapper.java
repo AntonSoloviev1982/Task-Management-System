@@ -1,23 +1,44 @@
 package com.solovyev_anton.taskmanagementsystem.mappers;
 
-import com.solovyev_anton.taskmanagementsystem.dtos.TaskDto;
+import com.solovyev_anton.taskmanagementsystem.dtos.TaskDtoIn;
+import com.solovyev_anton.taskmanagementsystem.dtos.TaskDtoOut;
 import com.solovyev_anton.taskmanagementsystem.entities.Task;
 import com.solovyev_anton.taskmanagementsystem.entities.User;
-import com.solovyev_anton.taskmanagementsystem.repositories.UserRepository;
+import com.solovyev_anton.taskmanagementsystem.exceptions.UserNotFoundException;
+import com.solovyev_anton.taskmanagementsystem.services.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.security.Principal;
 
+@Component
+@RequiredArgsConstructor
 public class TaskMapper {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public TaskMapper(UserRepository userRepository) {
-        this.userRepository = userRepository;
+
+    public Task toEntity(TaskDtoIn taskDtoIn, Principal principal) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+        Task task = new Task();
+        task.setTitle(taskDtoIn.getTitle());
+        task.setDescription(taskDtoIn.getDescription());
+        task.setStatus(taskDtoIn.getStatus());
+        task.setPriority(taskDtoIn.getPriority());
+        task.setAuthor(user);
+        return task;
     }
 
-//    public Task toEntity(TaskDto taskDto, Principal principal) {
-//        User user = userRepository.findByUsername(principal.getName())
-//                .orElseThrow();
-//    }
+    public TaskDtoOut toTaskDtoOut(Task task) {
+        TaskDtoOut taskDtoOut = new TaskDtoOut();
+        taskDtoOut.setTitle(task.getTitle());
+        taskDtoOut.setDescription(task.getDescription());
+        taskDtoOut.setStatus(task.getStatus());
+        taskDtoOut.setPriority(task.getPriority());
+        taskDtoOut.setComments(task.getComments());
+        return taskDtoOut;
+    }
 
 }

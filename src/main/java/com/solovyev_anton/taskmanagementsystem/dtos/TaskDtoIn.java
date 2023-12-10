@@ -5,10 +5,14 @@ import com.solovyev_anton.taskmanagementsystem.entities.Status;
 import lombok.Data;
 
 @Data
-public class TaskDto {
+public class TaskDtoIn {
+
 private String title;
+
 private String description;
+
 private Status status;
+
 private Priority priority;
 
 }
