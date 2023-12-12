@@ -1,10 +1,10 @@
 -- liquibase formatted sql
 
 --changeset anton:create_users
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS tasks;
-DROP TABLE IF EXISTS comments;
-CREATE TABLE users
+DROP TABLE IF EXISTS public.user;
+DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS comment;
+CREATE TABLE public.user
 (
     id         SERIAL PRIMARY KEY,
     username   VARCHAR(32)  NOT NULL UNIQUE,
@@ -15,7 +15,7 @@ CREATE TABLE users
 );
 
 --changeset anton:create_tasks
-CREATE TABLE tasks
+CREATE TABLE task
 (
     id           SERIAL PRIMARY KEY,
     title        VARCHAR(64) NOT NULL,
@@ -24,16 +24,16 @@ CREATE TABLE tasks
     priority     VARCHAR(16) NOT NULL,
     author_id    INTEGER     NOT NULL,
     performer_id INTEGER,
-    FOREIGN KEY (author_id) REFERENCES users (id),
-    FOREIGN KEY (performer_id) REFERENCES users (id)
+    FOREIGN KEY (author_id) REFERENCES public.user (id),
+    FOREIGN KEY (performer_id) REFERENCES public.user (id)
 );
 
 --changeset anton:create_comments
-CREATE TABLE comments
+CREATE TABLE comment
 (
     id      SERIAL PRIMARY KEY,
     text    VARCHAR(255),
     task_id INTEGER NOT NULL,
-    FOREIGN KEY (task_id) REFERENCES tasks (id)
+    FOREIGN KEY (task_id) REFERENCES task (id)
 );
 

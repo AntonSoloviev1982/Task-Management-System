@@ -1,14 +1,14 @@
 package com.solovyev_anton.taskmanagementsystem.entities;
 
 import com.solovyev_anton.taskmanagementsystem.dtos.Role;
-import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "`user`")
 public class User {
 
     @Id
