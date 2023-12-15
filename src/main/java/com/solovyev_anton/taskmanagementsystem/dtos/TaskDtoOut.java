@@ -18,6 +18,6 @@ public class TaskDtoOut {
 
     private Priority priority;
 
-    private List<Comment> comments;
+    private List<CommentDto> comments;
 
 }

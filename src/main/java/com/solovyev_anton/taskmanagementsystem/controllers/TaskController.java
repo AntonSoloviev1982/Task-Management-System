@@ -59,22 +59,22 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("{id}/performer")
-    public ResponseEntity<?> setPerformer(@PathVariable Integer id,
-                                          @RequestParam String username) {
-        taskService.setPerform(id, username);
+    @PatchMapping("{taskId}/performer/{userId}")
+    public ResponseEntity<?> setPerformer(@PathVariable Integer taskId,
+                                          @PathVariable Integer userId) {
+        taskService.setPerform(taskId, userId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("author")
-    public ResponseEntity<List<TaskDtoOut>> getAllTasksByAuthor(Principal principal) {
-        List<TaskDtoOut> tasks = taskService.getAllTasksByAuthor(principal);
+    @GetMapping("{id}/author")
+    public ResponseEntity<List<TaskDtoOut>> getAllTasksByAuthor(@PathVariable Integer id) {
+        List<TaskDtoOut> tasks = taskService.getAllTasksByAuthor(id);
         return ResponseEntity.ok().body(tasks);
     }
 
-    @GetMapping("performer")
-    public ResponseEntity<List<TaskDtoOut>> getAllTasksByPerformer(Principal principal) {
-        List<TaskDtoOut> tasks = taskService.getAllTasksByPerformer(principal);
+    @GetMapping("{id}/performer")
+    public ResponseEntity<List<TaskDtoOut>> getAllTasksByPerformer(@PathVariable Integer id) {
+        List<TaskDtoOut> tasks = taskService.getAllTasksByPerformer(id);
         return ResponseEntity.ok().body(tasks);
     }
 

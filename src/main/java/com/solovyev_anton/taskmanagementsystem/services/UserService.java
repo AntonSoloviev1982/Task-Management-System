@@ -2,6 +2,7 @@ package com.solovyev_anton.taskmanagementsystem.services;
 
 import com.solovyev_anton.taskmanagementsystem.dtos.RegisterDto;
 import com.solovyev_anton.taskmanagementsystem.entities.User;
+import com.solovyev_anton.taskmanagementsystem.exceptions.UserByUsernameNotFoundException;
 import com.solovyev_anton.taskmanagementsystem.exceptions.UserNotFoundException;
 import com.solovyev_anton.taskmanagementsystem.mappers.UserMapper;
 import com.solovyev_anton.taskmanagementsystem.repositories.UserRepository;
@@ -32,7 +33,7 @@ public class UserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+        User user = findByUsername(username).orElseThrow(() -> new UserByUsernameNotFoundException(username));
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
@@ -48,5 +49,10 @@ public class UserService implements UserDetailsService {
         registerDto.setPassword(encoder.encode(registerDto.getPassword()));
         userRepository.save(userMapper.registerToUser(registerDto));
         return true;
+    }
+
+    public User findById(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 }

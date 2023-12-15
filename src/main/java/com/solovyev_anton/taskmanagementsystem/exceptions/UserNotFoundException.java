@@ -2,14 +2,14 @@ package com.solovyev_anton.taskmanagementsystem.exceptions;
 
 public class UserNotFoundException extends RuntimeException{
 
-    private final String username;
+    private final Integer id;
 
-    public UserNotFoundException(String username) {
-        this.username = username;
+    public UserNotFoundException(Integer id) {
+        this.id = id;
     }
 
     @Override
     public String getMessage() {
-        return String.format("User with username: '%s' is not found!", username);
+        return String.format("User with id: '%d' is not found!", id);
     }
 }

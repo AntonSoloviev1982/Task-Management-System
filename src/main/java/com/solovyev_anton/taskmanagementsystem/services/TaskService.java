@@ -7,10 +7,8 @@ import com.solovyev_anton.taskmanagementsystem.entities.Status;
 import com.solovyev_anton.taskmanagementsystem.entities.Task;
 import com.solovyev_anton.taskmanagementsystem.entities.User;
 import com.solovyev_anton.taskmanagementsystem.exceptions.TaskNotFoundException;
-import com.solovyev_anton.taskmanagementsystem.exceptions.UserNotFoundException;
 import com.solovyev_anton.taskmanagementsystem.mappers.TaskMapper;
 import com.solovyev_anton.taskmanagementsystem.repositories.TaskRepository;
-import com.solovyev_anton.taskmanagementsystem.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +39,7 @@ public class TaskService {
     public List<TaskDtoOut> getAllTasks() {
         List<Task> tasks = taskRepository.findAll();
         return tasks.stream()
-                .map(task -> taskMapper.toTaskDtoOut(task))
+                .map(taskMapper::toTaskDtoOut)
                 .collect(Collectors.toList());
     }
 
@@ -65,32 +63,27 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public void setPerform(Integer id, String username) {
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFoundException(id));
+    public void setPerform(Integer taskId, Integer userId) {
+        User user = userService.findById(userId);
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException(taskId));
         task.setPerformer(user);
         taskRepository.save(task);
     }
 
-    public List<TaskDtoOut> getAllTasksByAuthor(Principal principal) {
-        String username = principal.getName();
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+    public List<TaskDtoOut> getAllTasksByAuthor(Integer id) {
+        User user = userService.findById(id);
         List<Task> tasks = taskRepository.findAllByAuthor(user);
         return tasks.stream()
-                .map(task -> taskMapper.toTaskDtoOut(task))
+                .map(taskMapper::toTaskDtoOut)
                 .collect(Collectors.toList());
     }
 
-    public List<TaskDtoOut> getAllTasksByPerformer(Principal principal) {
-        String username = principal.getName();
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+    public List<TaskDtoOut> getAllTasksByPerformer(Integer id) {
+        User user = userService.findById(id);
         List<Task> tasks = taskRepository.findAllByPerformer(user);
         return tasks.stream()
-                .map(task -> taskMapper.toTaskDtoOut(task))
+                .map(taskMapper::toTaskDtoOut)
                 .collect(Collectors.toList());
     }
 

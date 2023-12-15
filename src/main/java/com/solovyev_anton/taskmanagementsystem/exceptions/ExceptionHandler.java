@@ -17,6 +17,12 @@ public class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(UserByUsernameNotFoundException.class)
+    public ResponseEntity<String> handlerUserNotFound(UserByUsernameNotFoundException e) {
+        LOGGER.error(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
     @org.springframework.web.bind.annotation.ExceptionHandler(TaskNotFoundException.class)
     public ResponseEntity<String> handlerTaskNotFound(TaskNotFoundException e) {
         LOGGER.error(e.getMessage());

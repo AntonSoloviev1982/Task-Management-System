@@ -27,8 +27,7 @@ public class Task {
     private User author;
     @ManyToOne
     private User performer;
-
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
 
