@@ -23,8 +23,6 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder encoder;
-    private final UserMapper userMapper;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -42,14 +40,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public boolean register(RegisterDto registerDto) {
-        if (findByUsername(registerDto.getUsername()).isPresent()) {
-            return false;
-        }
-        registerDto.setPassword(encoder.encode(registerDto.getPassword()));
-        userRepository.save(userMapper.registerToUser(registerDto));
-        return true;
-    }
 
     public User findById(Integer id) {
         return userRepository.findById(id)

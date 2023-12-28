@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-
-
-    @PostMapping("register")
-    public ResponseEntity<?> register(@RequestBody RegisterDto registerDto) {
-        if (userService.register(registerDto)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
+//    private final UserService userService;
+//
+//
+//    @PostMapping("register")
+//    public ResponseEntity<?> register(@RequestBody RegisterDto registerDto) {
+//        if (userService.register(registerDto)) {
+//            return ResponseEntity.status(HttpStatus.CREATED).build();
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
+//    }
 
 }
