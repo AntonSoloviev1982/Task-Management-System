@@ -35,4 +35,16 @@ public class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(IncorrectLoginOrPasswordException.class)
+    public ResponseEntity<String> handlerCommentNotFound(IncorrectLoginOrPasswordException e) {
+        LOGGER.error(e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<String> handlerCommentNotFound(UserAlreadyExistsException e) {
+        LOGGER.error(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
 }

@@ -10,6 +10,7 @@ import com.solovyev_anton.taskmanagementsystem.exceptions.TaskNotFoundException;
 import com.solovyev_anton.taskmanagementsystem.mappers.TaskMapper;
 import com.solovyev_anton.taskmanagementsystem.repositories.TaskRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -36,8 +37,8 @@ public class TaskService {
         return taskMapper.toTaskDtoOut(task);
     }
 
-    public List<TaskDtoOut> getAllTasks() {
-        List<Task> tasks = taskRepository.findAll();
+    public List<TaskDtoOut> getAllTasks(PageRequest pageRequest) {
+        List<Task> tasks = taskRepository.findAll(pageRequest).getContent();
         return tasks.stream()
                 .map(taskMapper::toTaskDtoOut)
                 .collect(Collectors.toList());
@@ -71,17 +72,19 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public List<TaskDtoOut> getAllTasksByAuthor(Integer id) {
+    public List<TaskDtoOut> getAllTasksByAuthor(PageRequest pageRequest, Integer id) {
         User user = userService.findById(id);
-        List<Task> tasks = taskRepository.findAllByAuthor(user);
+        List<Task> tasks = taskRepository.findAllByAuthor(pageRequest, user)
+                .getContent();
         return tasks.stream()
                 .map(taskMapper::toTaskDtoOut)
                 .collect(Collectors.toList());
     }
 
-    public List<TaskDtoOut> getAllTasksByPerformer(Integer id) {
+    public List<TaskDtoOut> getAllTasksByPerformer(PageRequest pageRequest, Integer id) {
         User user = userService.findById(id);
-        List<Task> tasks = taskRepository.findAllByPerformer(user);
+        List<Task> tasks = taskRepository.findAllByPerformer(pageRequest, user)
+                .getContent();
         return tasks.stream()
                 .map(taskMapper::toTaskDtoOut)
                 .collect(Collectors.toList());

@@ -3,6 +3,7 @@ package com.solovyev_anton.taskmanagementsystem.configs;
 import com.solovyev_anton.taskmanagementsystem.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,6 +27,12 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final JwtRequestFilter jwtRequestFilter;
     private static final String[] AUTH_WHITELIST = {
+            "api/v1/auth/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/login",
             "/auth",
             "/register"
     };
@@ -70,3 +77,4 @@ public class SecurityConfig {
 
 
 }
+
